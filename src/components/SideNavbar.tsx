@@ -11,19 +11,25 @@ import { imagePaths } from '@/constants/images';
 
 
 const SideNavBar = () => {
+  const [open, setOpen] = useState(true);
+
   return (
-    <div className="md:w-60 bg-white h-screen flex-1 fixed border-r border-zinc-200 hidden md:flex">
-      <div className="flex flex-col space-y-6 w-full">
-        <Link
+    // <div className={`${open ? 'w-72' : 'w-20'} h-screen bg-orange-500 relative`}>
+
+    <div className={`${open ? 'w-60' : 'w-14'} duration-300 bg-white h-screen  border-r border-zinc-200 relative`}>
+      <img className={`${open ? '' : 'rotate-180'} absolute cursor-pointer -right-3 top-9 w-5  rounded-[100px] bg-[#151C37] p-[6px]`} src='/back.png' alt="Image" onClick={()=> setOpen(!open)}/>
+      <Link
           href="/"
-          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-12 w-full"
+          className="flex flex-row gap-x-4 items-center border-b border-zinc-200 h-12 w-full"
         >
           <img className='h-10 w-16' src={imagePaths.LOGO_93} alt="Logo"/>
         </Link>
+      <div className="flex flex-col space-y-6 w-full">
+       
 
-        <div className="flex flex-col space-y-2  md:px-6 ">
+        <div className={`${open ? 'px-6' : ''} flex flex-col space-y-2  `}>
           {SIDENAV_ITEMS.map((item, idx) => {
-            return <MenuItem key={idx} item={item} />;
+            return <MenuItem key={idx} item={item} open={open} />;
           })}
         </div>
       </div>
@@ -33,7 +39,7 @@ const SideNavBar = () => {
 
 export default SideNavBar;
 
-const MenuItem = ({ item }: { item: SideNavItem }) => {
+const MenuItem = ({ item, open }: { item: SideNavItem, open: boolean  }) => {
   const pathname = usePathname();
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const toggleSubMenu = () => {
@@ -51,14 +57,15 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
             }`}
           >
             <div className="flex flex-row space-x-4 items-center">
-              <img src={item.icon} alt="Image" width="24" height="24" />
-              <span className="font-semibold text-xs  flex">{item.title}</span>
+              <img className='ml-2' src={item.icon} alt="Image" width="24" height="24" />
+              <span className={`${open ? 'block' : 'hidden'} font-semibold text-xs text-black flex`}>{item.title}</span>
             </div>
 
             <div className={`${subMenuOpen ? 'rotate-180' : ''} flex`}>
-              <img src='chevron-down.png' alt="Image" width="24" height="24" />
+              <img className={`${open ? 'block' : 'hidden'}`} src='chevron-down.png' alt="Image" width="24" height="24" />
             </div>
           </button>
+
 
           {subMenuOpen && (
             <div className="my-2 ml-12 flex flex-col space-y-4">
@@ -85,8 +92,8 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
             item.path === pathname ? 'bg-zinc-100' : ''
           }`}
         >
-            <img src={item.icon} alt="Image" width="24" height="24" />
-          <span className="font-semibold text-xs flex">{item.title}</span>
+            <img className='ml-2' src={item.icon} alt="Image" width="24" height="24" />
+          <span className={`${open ? 'block' : 'hidden'} font-semibold text-xs text-black flex`}>{item.title}</span>
         </Link>
       )}
     </div>
