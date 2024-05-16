@@ -1,6 +1,9 @@
-import React from 'react';
+"use client"; // This is a client component 👈🏽
+
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { imagePaths } from '@/constants/images';
+import axios from 'axios';
 
 interface BlockProps {
     title: string;
@@ -20,7 +23,7 @@ interface Block {
     gasUsed: number;
 }
 
-const blocks: Block[] = [
+const blocks2: Block[] = [
     {
         height: 1,
         miner: "Miner 1",
@@ -208,8 +211,22 @@ const blocks: Block[] = [
     // Thêm các đối tượng khác vào đây
 ];
 
-const Block: React.FC<BlockProps> = (props) => {
-    const { title, content, imageUrl, author } = props;
+const Block = () => {
+    const [blocks, setBlocks] = useState<Block[]>([]);
+
+    useEffect(() => {
+        fetchBlocks();
+    }, []);
+
+    const fetchBlocks = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/blocks');
+            console.log("response: ",response);
+           // setBlocks(response.data);
+        } catch (error) {
+            console.error('Failed to fetch blocks:', error);
+        }
+    };
 
     return (
         <div className='rounded h-[97vh] flex flex-col justify-between'>
@@ -276,7 +293,7 @@ const Block: React.FC<BlockProps> = (props) => {
                     })}
 
 
-                    
+
                 </div>
             </div>
 
