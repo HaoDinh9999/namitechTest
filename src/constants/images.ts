@@ -11,5 +11,5 @@ export  const imagePaths = {
     TELEGRRAM_GREY: '/telegram-grey.png',
     TWITTER_GREY: '/twitter-grey.png',
     FB_GREY: '/fb-grey.png',
-
+    CHART: './chart.png'
 };

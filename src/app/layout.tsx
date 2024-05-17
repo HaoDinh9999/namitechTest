@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SideNavbar from "@/components/SideNavbar";
+import ReactQueryProvider from "@/hooks/queryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,18 +18,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex">
-          <SideNavbar/>
-          <main className="flex-1">
-          <div className="flex flex-col sm:border-r sm:border-zinc-700 min-h-screen">
-            <div className="flex flex-col pt-2 px-4 space-y-2 bg-zinc-100 flex-grow pb-4">
-              {children}
+        <body className={inter.className}>
+          <div className="flex">
+            <SideNavbar/>
+            <main className="flex-1">
+            <div className="flex flex-col sm:border-r sm:border-zinc-700 min-h-screen">
+              <div className="flex flex-col pt-2 px-4 space-y-2 bg-zinc-100 flex-grow pb-4">
+              <ReactQueryProvider>
+                {children}
+              </ReactQueryProvider>
+
+              </div>
             </div>
-          </div>
-        </main>
-        </div>      
-      </body>
+          </main>
+          </div>      
+        </body>
     </html>
   );
 }
